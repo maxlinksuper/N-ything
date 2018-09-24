@@ -16,10 +16,10 @@ def createChessboard():
     # read File's content
     chessPieces = Parser.readFile("Inputs/" + input("Enter filename: ") + ".txt")
 
-    # randomize chess pieces' positions
-    posRandomizer(chessBoard, chessPieces)
-
-    return chessBoard
+    # randomize chess pieces' positions and return list of all pieces location
+    pieceLocation = posRandomizer(chessBoard, chessPieces)
+    
+    return chessBoard, pieceLocation
 
 
 def fillBoard(chessBoard, row, col, pieceType):
@@ -34,8 +34,9 @@ def fillBoard(chessBoard, row, col, pieceType):
 
 
 def posRandomizer(chessBoard, chessPieces):
+    pieceLocation = [] # location of all pieces
     for piece in chessPieces:
-        pieceData = piece.split(" ")
+        pieceData = piece.split(" ") 
         # pieceData[0] = Color {WHITE, BLACK}
         # pieceData[1] = Type {KNIGHT, BISHOP, ROOK, QUEEN}
         # pieceData[2] = Amount {1, 2, 3, ..., 64}
@@ -43,6 +44,7 @@ def posRandomizer(chessBoard, chessPieces):
         for i in range(int(pieceData[2])):
             # determine board's box (row and col) to be filled
             # also check if the box is filled
+            
             while True:
                 row = randint(0, len(chessBoard)-1)
                 col = randint(0, len(chessBoard)-1)
@@ -51,7 +53,12 @@ def posRandomizer(chessBoard, chessPieces):
                 if chessBoard[row][col] == '.':
                     break
 
+            location = (row, col, pieceData[1])
+            pieceLocation.append(location)
             fillBoard(chessBoard, row, col, pieceData[1])
+
+    return pieceLocation
+
 
 
 def conflictChecker(chessBoard):
@@ -61,84 +68,110 @@ def conflictChecker(chessBoard):
     for row in range(size):
         for col in range(size):
             if chessBoard[row][col] == 'R':  # ROOK
-                horizontalConflict = checkHorizontalConflict(chessBoard, row, col)
-                verticalConflict = checkVerticalConflict(chessBoard, row, col)
-                if horizontalConflict or verticalConflict:
-                    totalConflict += 1
-                    rookConflict += 1
-
+                rookConflict += checkHorizontalConflict(chessBoard, row, col)
+                rookConflict += checkVerticalConflict(chessBoard, row, col)
+                 
             elif chessBoard[row][col] == 'B':  # BISHOP
-                if checkDiagonalConflict(chessBoard, row, col):
-                    totalConflict += 1
-                    bishopConflict += 1
+                bishopConflict += checkDiagonalConflict(chessBoard, row, col)
+                    
 
             elif chessBoard[row][col] == 'Q':  # QUEEN
-                horizontalConflict = checkHorizontalConflict(chessBoard, row, col)
-                verticalConflict = checkVerticalConflict(chessBoard, row, col)
-                diagonalConflict = checkDiagonalConflict(chessBoard, row, col)
-                if horizontalConflict or verticalConflict or diagonalConflict:
-                    totalConflict += 1
-                    queenConflict += 1
+                queenConflict += checkHorizontalConflict(chessBoard, row, col)
+                queenConflict += checkVerticalConflict(chessBoard, row, col)
+                queenConflict += checkDiagonalConflict(chessBoard, row, col)
 
             elif chessBoard[row][col] == 'K':  # KNIGHT
-                if checkKnightConflict(chessBoard, row, col):
-                    totalConflict += 1
-                    knightConflict += 1
+                knightConflict += checkKnightConflict(chessBoard, row, col)
+
+    totalConflict = rookConflict + queenConflict + bishopConflict + knightConflict
 
     return totalConflict, queenConflict, rookConflict, bishopConflict, knightConflict
 
 
 def checkHorizontalConflict(chessBoard, row, col):
+    count = 0
     # Check left
     for j in range(col-1, -1, -1):
         if chessBoard[row][j] != '.':
-            return True
+            count = count + 1
+            break
 
     # Check right
     for j in range(col+1, len(chessBoard),):
         if chessBoard[row][j] != '.':
-            return True
+            count = count + 1
+            break
 
-    return False
+    return count
 
 
 def checkVerticalConflict(chessBoard, row, col):
+    count = 0
     # check up
     for i in range(row-1, -1, -1):
         if chessBoard[i][col] != '.':
-            return True
+            count = count + 1
+            break
 
     # check down
     for i in range(row+1, len(chessBoard)):
         if chessBoard[i][col] != '.':
-            return True
+            count = count + 1
+            break
 
-    return False
+    return count
 
 
 def checkDiagonalConflict(chessBoard, row, col):
-    # a piece at (p, q) is on the same diagonal as a piece at (r, s) if abs(p - r) == abs (q - s)
     size = len(chessBoard)
+    count = 0
+      
+    #check up right
+    i = row - 1
+    j = col + 1
+    while ( i >= 0 ) and ( j < size ) :
+        if (chessBoard[i][j]) != '.' :
+            count = count + 1
+            break
+        i = i - 1
+        j = j + 1
 
-    # check up
-    for i in range(row-1, -1, -1):
-        for j in range(size):
-            if chessBoard[i][j] != '.':
-                if abs(row - i) == abs(col - j):
-                    return True
+    #check up left
+    i = row - 1
+    j = col - 1
+    while ( i >= 0 ) and ( j >= 0 ) :
+        if (chessBoard[i][j]) != '.' :
+            count = count + 1
+            break
+        i = i - 1
+        j = j - 1
 
-    # check down
-    for i in range(row+1, size):
-        for j in range(size):
-            if chessBoard[i][j] != '.':
-                if abs(row - i) == abs(col - j):
-                    return True
+    #check down left
+    i = row + 1
+    j = col - 1
+    while (i < size) and ( j >= 0 ) :
+        if (chessBoard[i][j]) != '.' :
+            count = count + 1
+            break
+        i = i + 1
+        j = j - 1
 
-    return False
+    # check down right
+    i = row + 1
+    j = col + 1
+    while ( i < 8 ) and ( j < 8 ) :
+        if (chessBoard[i][j]) != '.' :
+            count = count + 1
+            break
+        i = i + 1
+        j = j + 1
+
+    return count
 
 def checkKnightConflict(chessBoard, row, col):
     deltas = [(-2, -1), (-2, +1), (+2, -1), (+2, +1), (-1, -2), (-1, +2), (+1, -2), (+1, +2)]
     size = len(chessBoard)
+    count = 0
 
     for (i, j) in deltas:
         x = col + j
@@ -146,6 +179,6 @@ def checkKnightConflict(chessBoard, row, col):
 
         if x >= 0 and y >= 0 and x < size and y < size:
             if(chessBoard[y][x] != '.'):
-                return True
-
-    return False
+                count = count + 1
+                
+    return count
