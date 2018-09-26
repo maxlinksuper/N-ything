@@ -6,6 +6,19 @@ def readFile(filename):
     infile.close()
 
     # strip newline
-    content = [x.strip() for x in content]
-    return content
+    chessPieces = [x.strip() for x in content]
 
+    # transform contents to tuples
+    piecesList = []
+    for piece in chessPieces:
+        pieceData = piece.split(" ")
+        # pieceData[0] = Color {WHITE, BLACK}
+        # pieceData[1] = Type {KNIGHT, BISHOP, ROOK, QUEEN}
+        # pieceData[2] = Amount {1, 2, 3, ..., 64}
+
+        tempTuple = (pieceData[1], pieceData[0])
+
+        for i in range(int(pieceData[2])):
+            piecesList.append(tempTuple)
+
+    return piecesList
