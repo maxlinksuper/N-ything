@@ -3,6 +3,11 @@ from Algorithms import Checker
 
 # Print chessboard to screen
 def printChessBoard(chessBoard):
+
+    if not chessBoard:
+        print("ChessBoard is empty! You have to create it first.")
+        return
+
     size = len(chessBoard) # size = 8
     for row in range(size):
         for col in range(size):
@@ -61,12 +66,23 @@ def printChessBoard(chessBoard):
                     else:
                         print('.' + "\n")
 
+    printConflictAmount(chessBoard)
+
 
 def printConflictAmount(chessBoard):
-    total, queen, rook, bishop, knight = Checker.conflictCheckerA(chessBoard)
-    print("Total conflict : " + str(total))
+    totalA, queenA, rookA, bishopA, knightA = Checker.conflictCheckerA(chessBoard)
+    # totalB, queenB, rookB, bishopB, knightB = Checker.conflictCheckerB(chessBoard)
+
+    print("Total conflict A : " + str(totalA))
     print("Description:")
-    print("  Queen  : " + str(queen))
-    print("  Rook   : " + str(rook))
-    print("  Bishop : " + str(bishop))
-    print("  Knight : " + str(knight))
+    print("  Queen  : " + str(queenA))
+    print("  Rook   : " + str(rookA))
+    print("  Bishop : " + str(bishopA))
+    print("  Knight : " + str(knightA))
+    # print("\n")
+    # print("Total conflict B : " + str(totalB))
+    # print("Description:")
+    # print("  Queen  : " + str(queenB))
+    # print("  Rook   : " + str(rookB))
+    # print("  Bishop : " + str(bishopB))
+    # print("  Knight : " + str(knightB))
