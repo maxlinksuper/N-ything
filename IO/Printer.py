@@ -1,4 +1,13 @@
 from Algorithms import Checker
+import os
+
+
+def printDir(path):
+    fileList = os.listdir(path)
+    print(">> List of input files:")
+
+    for name in fileList:
+        print("  >> " + name)
 
 
 # Print chessboard to screen
@@ -70,7 +79,7 @@ def printChessBoard(chessBoard):
 
 
 def printConflictAmount(chessBoard):
-    totalA, queenA, rookA, bishopA, knightA = Checker.conflictCheckerA(chessBoard)
+    totalA, queenA, rookA, bishopA, knightA = Checker.conflictChecker(chessBoard)
     # totalB, queenB, rookB, bishopB, knightB = Checker.conflictCheckerB(chessBoard)
 
     print("Total conflict A : " + str(totalA))

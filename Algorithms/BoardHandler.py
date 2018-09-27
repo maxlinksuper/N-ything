@@ -13,7 +13,7 @@ def createChessboard():
         chessBoard.append(col)
 
     # read File's content
-    chessPieces = Parser.readPiecesFile("Inputs/" + input(">> Enter filename: ") + ".txt")
+    chessPieces = Parser.readPiecesFile("Inputs/" + input(">> Enter filename: "))
 
     # randomize chess pieces' positions
     randomizer(chessBoard, chessPieces)
@@ -24,7 +24,7 @@ def createChessboard():
 
 def readChessboard():
     # read file's content
-    return Parser.readChessBoardFile("Inputs/" + input(">> Enter filename: ") + ".txt")
+    return Parser.readChessBoardFile("Inputs/" + input(">> Enter filename: "))
 
 
 # clear board from chess pieces

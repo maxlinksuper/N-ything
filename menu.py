@@ -1,4 +1,3 @@
-from IO import Parser
 from IO import Printer
 from Algorithms import BoardHandler
 import os
@@ -72,8 +71,10 @@ def mainMenu():
 
             # Call the matching function
             if choice == 1:
+                Printer.printDir("Inputs/")
                 chessBoard = BoardHandler.createChessboard()
             elif choice == 2:
+                Printer.printDir("Inputs/")
                 chessBoard = BoardHandler.readChessboard()
             elif choice == 3:
                 Printer.printChessBoard(chessBoard)
