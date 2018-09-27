@@ -20,6 +20,7 @@ colors = {
 
 menuItems =\
     ["Create a new Chess board",
+     "Read a chess board",
      "Show the Chess board",
      "Solve with Hill-Climbing",
      "Solve with Simulated Annealing",
@@ -40,7 +41,7 @@ def credit():
     S =\
     """
     >> Created by:
-    >>   Kevin Leonardo Limitius    13516049    ChelseaTV Documenter
+    >>   Kevin Leonardo Limitius    13516049    Aku adalah Istriku Documenter
     >>   Christian Kevin Saputra    13516073    Genetic Algorithm Pioneer
     >>   Tanor Abraham Reyuko       13516088    Simulated Annealing Expert
     >>   Ahmad Faishol Huda         13516094    Hill Climber
@@ -72,12 +73,16 @@ def mainMenu():
             # Call the matching function
             if choice == 1:
                 chessBoard = BoardHandler.createChessboard()
-            if choice == 2:
+            elif choice == 2:
+                chessBoard = BoardHandler.readChessboard()
+            elif choice == 3:
                 Printer.printChessBoard(chessBoard)
-            if choice == 6:
+            elif choice == 7:
                 credit()
-            if choice == 7:
+            elif choice == 8:
                 exit(0)
+            else:
+                print(">> That is not a valid input.")
         except (ValueError, IndexError):
             pass
 

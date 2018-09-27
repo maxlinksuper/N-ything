@@ -13,13 +13,18 @@ def createChessboard():
         chessBoard.append(col)
 
     # read File's content
-    chessPieces = Parser.readFile("Inputs/" + input(">> Enter filename: ") + ".txt")
+    chessPieces = Parser.readPiecesFile("Inputs/" + input(">> Enter filename: ") + ".txt")
 
     # randomize chess pieces' positions
     randomizer(chessBoard, chessPieces)
 
     print(">> Chess board created.")
     return chessBoard
+
+
+def readChessboard():
+    # read file's content
+    return Parser.readChessBoardFile("Inputs/" + input(">> Enter filename: ") + ".txt")
 
 
 # clear board from chess pieces
@@ -34,22 +39,22 @@ def clearBoard(chessBoard):
 def fillBoard(chessBoard, row, col, pieceType, color):
     if color == "WHITE":
         if pieceType == "KNIGHT":
-            chessBoard[row][col] = ('KNIGHT', "WHITE")
+            chessBoard[row][col] = ("KNIGHT", "WHITE")
         elif pieceType == "BISHOP":
-            chessBoard[row][col] = ('BISHOP', "WHITE")
+            chessBoard[row][col] = ("BISHOP", "WHITE")
         elif pieceType == "ROOK":
-            chessBoard[row][col] = ('ROOK', "WHITE")
+            chessBoard[row][col] = ("ROOK", "WHITE")
         elif pieceType == "QUEEN":
-            chessBoard[row][col] = ('QUEEN', "WHITE")
+            chessBoard[row][col] = ("QUEEN", "WHITE")
     elif color == "BLACK":
         if pieceType == "KNIGHT":
-            chessBoard[row][col] = ('KNIGHT', "BLACK")
+            chessBoard[row][col] = ("KNIGHT", "BLACK")
         elif pieceType == "BISHOP":
-            chessBoard[row][col] = ('BISHOP', "BLACK")
+            chessBoard[row][col] = ("BISHOP", "BLACK")
         elif pieceType == "ROOK":
-            chessBoard[row][col] = ('ROOK', "BLACK")
+            chessBoard[row][col] = ("ROOK", "BLACK")
         elif pieceType == "QUEEN":
-            chessBoard[row][col] = ('QUEEN', "BLACK")
+            chessBoard[row][col] = ("QUEEN", "BLACK")
 
 
 # Create list of pieces from chess board for randomizer
